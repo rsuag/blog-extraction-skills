@@ -1,34 +1,31 @@
-# 个性与灵魂（仅模式A重度改写）
+# Voice and Perspective for Heavy Mode-A Rewrites
 
-避免 AI 模式只是工作的一半。无菌、没有声音的写作和机器生成的内容一样明显。好的写作背后有一个真实的人。
+Removing AI-style phrasing is only part of the job. Sterile, voiceless prose can feel just as artificial. Good writing has a recognizable person behind it.
 
-## 缺乏灵魂的写作迹象（即使技术上"干净"）
+## Signs of Voiceless Writing
 
-- 每个句子长度和结构都相同
-- 没有观点，只有中立报道
-- 不承认不确定性或复杂感受
-- 不使用第一人称视角
-- 没有幽默、没有锋芒、没有个性
-- 读起来像维基百科文章或新闻稿
+- Every sentence has the same length and structure.
+- It reports neutrally without a point of view.
+- It never acknowledges uncertainty or mixed feelings.
+- It avoids the first person even where a first-person view belongs.
+- It has no humor, edge, or personality.
+- It reads like an encyclopedia or a press release.
 
-## 如何注入语调
+## Add Voice Carefully
 
-**有观点。** 不要只是报告事实——对它们做出反应。"我真的不知道该怎么看待这件事"比中立地列出利弊更有人味。
+- **Have a perspective.** React to facts instead of only listing them. A candid line such as `我真的不知道该怎么看待这件事` can sound more human than a mechanically balanced pros-and-cons list.
+- **Vary rhythm.** Alternate short, forceful sentences with longer ones that need room to unfold.
+- **Acknowledge complexity.** Real reactions can be mixed; `这令人印象深刻但也有点不安` conveys more than `这令人印象深刻`.
+- **Use `我` when warranted.** First person can be honest rather than unprofessional: `我一直在思考……` or `让我困扰的是……` signals a real observer.
+- **Allow some imperfection.** An occasional digression or unfinished thought can feel natural; do not manufacture disorder for its own sake.
+- **Be specific about feeling.** Replace vague concern with an observable situation and its effect on the writer.
 
-**变化节奏。** 短促有力的句子。然后是需要时间慢慢展开的长句。混合使用。
+## Chinese Example
 
-**承认复杂性。** 真实的人有复杂的感受。"这令人印象深刻但也有点不安"胜过"这令人印象深刻"。
+Before, clean but voiceless:
 
-**适当使用"我"。** 第一人称不是不专业——而是诚实。"我一直在思考……"或"让我困扰的是……"表明有真实的人在思考。
-
-**允许一些混乱。** 完美的结构感觉像算法。跑题、题外话和半成型的想法是人性的体现。
-
-**对感受要具体。** 不是"这令人担忧"，而是"凌晨三点没人看着的时候，智能体还在不停地运转，这让人不安"。
-
-## 示例
-
-**改写前（干净但无灵魂）：**
 > 实验产生了有趣的结果。智能体生成了 300 万行代码。一些开发者印象深刻，另一些则持怀疑态度。影响尚不明确。
 
-**改写后（鲜活）：**
+After, with a distinct voice:
+
 > 我真的不知道该怎么看待这件事。300 万行代码，在人类大概睡觉的时候生成的。开发社区有一半人疯了，另一半人在解释为什么这不算数。真相可能在无聊的中间某处——但我一直在想那些通宵工作的智能体。

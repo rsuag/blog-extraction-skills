@@ -1,25 +1,25 @@
-# 博客与长文提炼技能包
+# Blog and Long-Form Content Distillation Skills
 
-这是一组面向中文内容处理的 Markdown 技能说明，适合用于博客、播客逐字稿、长文章、视频文字稿的提炼、蒸馏和二次编辑。
+Markdown skill instructions for processing Chinese-language blogs, podcast transcripts, long articles, and video transcripts. The repository covers distillation, structured synthesis, and editorial revision.
 
-## 包含内容
+## Included Skills
 
-- `skills/changwen-tilian/SKILL.md`：把长文或逐字稿蒸馏成信息子弹，也可生成主要内容、新的重要观点、思维导图、可执行可迁移知识。
-- `skills/humanizer-zh/SKILL.md`：中文文本润色与去 AI 腔规则。
-- `skills/humanizer-zh/references/chinese-ai-cliches.md`：中文 AI 腔高频问题排查表。
-- `skills/humanizer-zh/references/voice-and-soul.md`：重度改写时的个性与语气参考。
+- `skills/changwen-tilian/SKILL.md`: turn a long article or transcript into one structured blog digest with key ideas, an outline, transferable lessons, and information bullets.
+- `skills/humanizer-zh/SKILL.md`: revise Chinese writing while reducing formulaic AI phrasing.
+- `skills/humanizer-zh/references/chinese-ai-cliches.md`: a checklist of common patterns in AI-generated Chinese prose.
+- `skills/humanizer-zh/references/voice-and-soul.md`: voice and perspective guidance for substantial rewrites.
 
-## 适用场景
+## Use Cases
 
-- 从长博客、访谈稿、播客逐字稿里提炼可发布的信息子弹。
-- 将长内容整理为结构化报告。
-- 检查并去除中文写作里的机械感、套话和公式化表达。
-- 把具体内容抽象成可迁移的方法、清单或判断框架。
+- Extract publishable ideas from long blogs, interviews, and podcast transcripts.
+- Turn long source material into one structured report.
+- Identify mechanical, clichéd, or formulaic Chinese prose.
+- Derive reusable methods, checklists, and decision frameworks from concrete material.
 
-## 使用方式
+## How to Use
 
-把需要的 `SKILL.md` 和 `references/` 文件放入你的 agent、写作工作流或提示词系统中。处理长文时，建议先用 `changwen-tilian` 建立信息骨架，再用 `humanizer-zh` 做中文表达清理。
+Copy the relevant `SKILL.md` and `references/` files into your agent or writing workflow. For long-form material, use `changwen-tilian` to organize the information first, then `humanizer-zh` to refine the Chinese prose. The instructions are written in English; the skills still produce Chinese output and retain Chinese examples where they are needed to perform the task.
 
-## 隐私说明
+## Privacy
 
-本公开版本已去除个人本机路径、私人待处理链接、账号信息和本地工作区配置，只保留可复用的 Markdown 规则文本。
+This public version excludes personal local paths, private links, account details, and workspace configuration. It contains only reusable Markdown instructions.
