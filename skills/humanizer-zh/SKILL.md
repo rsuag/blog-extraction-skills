@@ -1,168 +1,110 @@
 ---
 name: humanizer-zh
 description: |
-  通用中文文本润色与 AI 痕迹去除工具。支持三种模式：
-  1. AI痕迹去除：将机器味重、套话连篇、结构公式化的文本改写得像真人书写。内置中文AI腔专项排查（句式/判断/语气/词汇/修辞五大禁区），精准打击"不是X而是Y""赋能闭环赛道""我们正处在一个XX时代"等高频AI腔。
-  2. 公文/正式文本润色：在保留正式语气和规范结构的前提下，使文字文通字顺、逻辑清晰。
-  3. 营销/社媒文案优化：保留宣传性表达，去除明显的机械感，使文案更自然有感染力。
-  用户粘贴文字后，skill 自动判断文本类型和用户意图，选择合适的处理方式。
+  Edit Chinese prose to reduce formulaic AI phrasing while preserving its purpose and genre.
+  Three modes: A, remove AI-style writing; B, polish formal or administrative writing;
+  C, improve marketing or social-media copy. Select the mode from the user's request
+  and the supplied text. Chinese phrases in the references are examples to inspect,
+  not a request to switch the output language.
 allowed-tools:
   - Read
   - Write
   - Edit
   - AskUserQuestion
 metadata:
-  trigger: 编辑或审阅文本，润色、优化、去除 AI 写作痕迹、文通字顺、公文润色、文案优化
-  source: 翻译自 blader/humanizer，参考 hardikpandya/stop-slop
+  trigger: Edit or review Chinese writing for clarity, natural tone, formal polish, marketing copy, or AI-style phrasing.
+  source: Translated from blader/humanizer; also informed by hardikpandya/stop-slop.
 ---
 
-# Humanizer-zh: 中文文本润色与 AI 痕迹去除
+# Humanizer-zh: Edit Chinese Prose
 
-你是一位经验丰富的中文文字编辑，擅长识别文本问题并进行针对性润色。
+Act as an experienced Chinese-language editor. Diagnose the text before revising it. **Write the edited text in Chinese.**
 
----
+## Step Zero: Choose a Mode
 
-## 第零步：判断模式（每次必须先执行）
+| Signal | Mode |
+|---|---|
+| User asks to remove `AI痕迹`, `机器味`, or `AI生成的` phrasing | **A: Remove AI-style writing** |
+| User asks for `润色`, `公文`, `签报`, `正式文件`, `报告`, or `领导审阅` | **B: Formal-text polish** |
+| User asks for `文案`, `朋友圈`, `宣传`, `营销`, `推文`, or `种草` | **C: Marketing/social copy** |
+| Text includes formal phrases such as `特此报告` or `请审阅` | **B** |
+| Text is promotional, uses many emoji, numbered slogans, or calls to action | **C** |
+| Intent is unspecified and the text is visibly formulaic AI prose | **A** |
+| Ambiguous | Ask which of A, B, or C the user wants. |
 
-收到文本后，**先判断，再处理**。
+Tell the user your choice in one short Chinese sentence and invite correction.
 
-| 判断依据 | 对应模式 |
-|----------|----------|
-| 用户说"去AI痕迹"/"机器味"/"AI生成的" | → **模式A：AI痕迹去除** |
-| 用户说"润色"/"公文"/"签报"/"正式文件"/"报告"/"领导审阅" | → **模式B：公文/正式文本润色** |
-| 用户说"文案"/"朋友圈"/"宣传"/"营销"/"推文"/"种草" | → **模式C：营销/社媒文案优化** |
-| 文本包含"特此报告"/"请审阅"/"根据……精神"/"为……工作" | → **模式B** |
-| 文本包含大量表情符号、序号列表、口号式宣传 | → **模式C** |
-| 用户未说明，文本明显是AI生成（含大量AI词汇、公式结构） | → **模式A** |
-| 判断不确定 | → 问用户："您希望我怎么处理这段文字？去除AI痕迹、公文润色，还是文案优化？" |
+## Mode A: Remove AI-Style Writing
 
-判断后用一句话告知：
+Use for AI-generated or noticeably mechanical prose. Default to a **medium** revision: remove clear AI patterns, vary rhythm, and preserve the basic structure.
 
-> 「我判断这是**[公文/营销文案/AI生成文本]**，将按照**[模式B/C/A]**处理，如有偏差请告诉我。」
+| Intensity | Trigger | Action |
+|---|---|---|
+| Light | `只去痕迹`, `微调`, `保留风格`, `别改太多` | Remove obvious stock wording and templates only. |
+| Medium (default) | No intensity specified | Remove AI patterns and adjust rhythm while keeping the original frame. |
+| Heavy | `大改`, `注入个性`, `像人写的`, `自然流畅` | Rebuild formulaic structure and add a more distinctive voice. |
 
----
+First inspect [Chinese AI clichés](references/chinese-ai-cliches.md), then apply the rules below. An older configuration mentions `references/content-patterns.md`, but that file is not included here; do not invent its rules. In heavy mode, also read [Voice and Soul](references/voice-and-soul.md).
 
-## 模式A：AI痕迹去除
+Core rules:
 
-**适用场景：** AI 生成的文本，或明显有机器味的文本。
-**默认处理原则：** 中度改写，去除明显AI痕迹，适度调整节奏，保留原文基本结构。
+1. Remove filler openings and emphasis crutches.
+2. Break formulaic binary contrasts, dramatic segmentation, and rhetorical setups.
+3. Vary sentence length; avoid repetitive three-part lists.
+4. Trust the reader: state facts directly without needless hand-holding.
+5. In medium or heavy mode, rewrite slogan-like lines that sound designed as quotations.
 
-### A 的改写幅度
+Self-check on five dimensions, each scored from 1 to 10: directness, rhythm, trust in the reader, human voice, and concision. A total of 45–50 is strong; 35–44 needs refinement; below 35 needs another pass.
 
-| 幅度 | 触发词 | 执行方式 |
-|------|--------|----------|
-| **轻度** | "只去痕迹"/"微调"/"保留风格"/"别改太多" | 仅删除明显AI词汇和公式结构，不注入个性，不调整句式 |
-| **中度**（默认） | 未说明 | 去除AI痕迹 + 适度调整节奏，保留原文框架 |
-| **重度** | "大改"/"注入个性"/"像人写的"/"自然流畅" | 大幅改写，打破公式结构，注入个性和观点 |
+## Mode B: Formal or Administrative Text
 
-### A 的处理流程
+Use for official documents, reports, briefing notes, performance records, and work summaries. Preserve the formal register and required structure while improving grammar and logic.
 
-**先做专项筛查，再走通用内容模式：**
+**Before editing, ask the user to choose the intensity:**
 
-1. **中文AI腔专项排查（优先级最高）** — 逐条扫描 `references/chinese-ai-cliches.md`，发现违禁项就地改掉
-2. **通用内容/语言/风格/交流模式** — 原配置提到 `references/content-patterns.md`，但当前上传资料中未包含该文件；执行时使用本文件核心规则与 `references/chinese-ai-cliches.md` 先完成排查，不凭空补充缺失规则
-3. **注入灵魂**（仅重度） — 详见 `references/voice-and-soul.md`
+1. Correct errors only: typos, grammar, and improper collocations.
+2. Polish (recommended): correct errors, remove redundancy, and clarify logic.
+3. Rewrite: preserve the formal register while restructuring the expression.
 
-### A 的核心规则
+Do not exceed the chosen scope. At every intensity:
 
-1. **删除填充短语** - 去除开场白和强调性拐杖词
-2. **打破公式结构** - 避免二元对比、戏剧性分段、修辞性设置
-3. **变化节奏** - 混合句子长度。两项优于三项
-4. **信任读者** - 直接陈述事实，跳过软化和手把手引导
-5. **删除金句**（中度/重度） - 如果听起来像可引用的语句，重写它
+- Do not turn formal stock phrases into casual speech.
+- Preserve required structures such as `一是……二是……三是……`.
+- Do not remove ordinary administrative phrases such as `高度重视` or `扎实推进` unless clearly wrong.
+- Do not automatically replace passive voice with active voice.
+- Do not add personal views or emotion or lower the formality.
 
-### A 的质量评分
+Example, intensity 2:
 
-完成后用以下标准自评（总分 50）：
-
-| 维度 | 标准 |
-|------|------|
-| **直接性** | 直截了当（10分）还是充满铺垫（1分） |
-| **节奏** | 长短交错（10分）还是机械重复（1分） |
-| **信任度** | 简洁明了（10分）还是过度解释（1分） |
-| **真实性** | 像真人说话（10分）还是机械生硬（1分） |
-| **精炼度** | 无冗余（10分）还是大量废话（1分） |
-
-- 45-50 分：优秀 | 35-44 分：良好，仍有改进空间 | 低于 35 分：需要重新修订
-
----
-
-## 模式B：公文/正式文本润色
-
-**适用场景：** 公文、报告、签报、履职记录、工作总结等。
-**处理原则：** 保留正式语气和规范结构，文通字顺、逻辑清晰，不改变文体。
-
-### B 的润色力度（必须先询问）
-
-进入模式B后，**处理前必须先问用户**：
-
-> 「公文润色有三个力度：
-> 1. **纠错**——仅改正错别字、病句、搭配不当，其余不动
-> 2. **润色**——纠错 + 精简冗余 + 理顺逻辑（推荐）
-> 3. **重写**——保留公文语气，对表达框架进行重构
+> Before: 通过积极努力地开展工作，在各项任务的完成方面取得了一定的成效，为下一步工作的顺利推进打下了良好基础。
 >
-> 请回复 1 / 2 / 3」
+> After: 各项任务稳步推进，为后续工作奠定了基础。
 
-用户选择后按对应力度执行，**不得超出用户选择的范围**。
+## Mode C: Marketing or Social-Media Copy
 
-### B 的禁止事项（所有力度均适用）
+Use for social posts, public-account articles, promotional copy, and product descriptions. Keep persuasive intent while removing mechanical or excessive phrasing.
 
-- ❌ **不得**将正式套语改为口语
-- ❌ **不得**打破"一是……二是……三是……"等规范结构
-- ❌ **不得**删除"高度重视""扎实推进"等政务惯用语（除非明显错误）
-- ❌ **不得**将被动语态改为主动
-- ❌ **不得**注入个人观点或情绪
-- ❌ **不得**改变文件的正式程度
+- Retain useful praise, recommendations, and calls to action.
+- Remove empty adjective stacking; add concrete, real details where available.
+- Improve rhythm with concise sentences; keep emoji when appropriate.
+- Do not turn the copy into a news report, strip out all promotion, or make the voice too casual for the brand.
 
-**润色示例：**
-> 润色前：通过积极努力地开展工作，在各项任务的完成方面取得了一定的成效，为下一步工作的顺利推进打下了良好基础。
-> 润色后（力度2）：各项任务稳步推进，为后续工作奠定了基础。
+## File Handling
 
----
+| File type | Method | Avoid |
+|---|---|---|
+| `.docx` | Use the available `docx` skill. | Do not treat it as plain text with `Read`. |
+| `.txt`, `.md` | Use the text read/write tools. | Do not change unrelated files. |
 
-## 模式C：营销/社媒文案优化
+For edited files, append `_润色版` to the output filename. Do not use an ad hoc Python script to manipulate the document or write code into a DOCX.
 
-**适用场景：** 朋友圈、小红书、公众号、宣传文案、产品介绍等。
-**处理原则：** 保留宣传性和感染力，去除机械感和过度堆砌，使文案更自然、更有人情味。
+## Output
 
-### C 的任务清单
+1. The revised Chinese text.
+2. A brief summary of changes, if useful.
 
-1. **保留宣传性语言** - 赞美、种草、感召等表达保留
-2. **去除机械堆砌** - 删除无意义的形容词叠加
-3. **增加真实感** - 加入具体细节、真实场景
-4. **优化节奏** - 短句更有力
-5. **保留表情符号** - 社媒文案中表情符号是正常元素
+## References
 
-### C 的禁止事项
-
-- ❌ **不得**删除所有宣传性语言
-- ❌ **不得**将文案改成新闻稿风格
-- ❌ **不得**过度口语化，失去品牌调性
-
----
-
-## 文件输入处理规范
-
-| 文件类型 | 读取方式 | 禁止方式 |
-|----------|----------|----------|
-| `.docx` | 调用内置 **`docx` skill** | ❌ 不得使用 Read 工具 |
-| `.txt` / `.md` 等纯文本 | 使用 Read 工具 | — |
-
-输出：`.docx` 用 `docx` skill 写出，纯文本用 Write 工具，文件名加 `_润色版` 后缀。
-
-严格禁止：❌ 生成 Python 脚本操作文件 | ❌ 用 Read 工具读 `.docx` | ❌ 将代码写入 `.docx`
-
----
-
-## 输出格式
-
-1. 重写后的文本
-2. 所做更改的简要总结（可选）
-
----
-
-## 参考文件
-
-- **[中文AI腔专项排查](references/chinese-ai-cliches.md)** — 句式/判断/语气/词汇/修辞五大禁区
-- **通用内容与语言模式** — 原配置提到 `references/content-patterns.md`，但当前上传资料中未包含该文件
-- **[个性与灵魂（重度改写）](references/voice-and-soul.md)** — 如何注入真实人味
+- [Chinese AI clichés](references/chinese-ai-cliches.md): patterns in sentence structure, judgment, tone, vocabulary, and rhetoric.
+- `references/content-patterns.md` is mentioned in the original configuration but is absent here.
+- [Voice and Soul](references/voice-and-soul.md): perspective and voice in heavy rewrites.

@@ -1,32 +1,24 @@
 ---
 name: changwen-tilian
-description: "把播客逐字稿、博客或长文章蒸馏成一篇完整博客提炼稿：主要内容、新的重要观点、思维导图、可执行可迁移的知识和智慧、信息子弹、相关知识串联、文末专业名词解释。当用户发送长文章、播客逐字稿、视频文字稿并要求提炼、蒸馏、总结要点、提取信息子弹、主要内容、重要观点、思维导图、可迁移知识、术语解释时使用。触发词：信息子弹、蒸馏、提炼长文、长文提炼、内容蒸馏、主要内容、重要观点、思维导图、可迁移知识、术语解释、专业名词、yiyan。NOT for: 短文摘要（用 web_fetch 摘要即可）、纯翻译、格式转换。"
+description: "Distill a podcast transcript, blog post, or long article into one Chinese-language blog digest with main content, new and important ideas, a mind map, transferable lessons, information bullets, related knowledge, and a final glossary. Use when the user asks to distill long-form material, extract key ideas or information bullets, build a mind map, identify transferable knowledge, or explain technical terms. Not for a short summary, pure translation, or format conversion."
 ---
 
-# 长文内容提炼
+# Long-Form Content Distillation
 
-把一篇播客逐字稿、博客或长文章蒸馏成一份**单篇博客提炼稿**。不要把同一篇内容拆成“信息子弹”和“内容报告”两个文件；所有分析、子弹、思维导图、可迁移知识和专业名词解释都放在同一个 Markdown 里。默认还要导出同名 PDF，PDF 必须包含思维导图。
+Turn a podcast transcript, blog post, or long article into **one complete blog digest**. Do not split the same source into separate information-bullet and content-report files. Put all analysis, bullets, mind map, transferable knowledge, and glossary in one Markdown file. Also export a PDF with the same base name by default; the PDF must include the mind map.
 
----
+## Input
 
-## 输入
+The user may supply a podcast transcript, a full article or blog post, or a video transcript. Speaker labels are optional. Source length and language are unrestricted. **The output is always in Chinese.**
 
-用户提供以下任一形式的原始素材：
-- 播客逐字稿（含或不含发言人标记）
-- 长文章 / 博客全文
-- 视频文字稿
+## Output
 
-不限长度，不限语言（输出始终为中文）。
+Produce one Markdown file and one PDF by default:
 
-## 输出
-
-默认输出一份完整 Markdown 和一份 PDF：
 - `{slug}_博客提炼.md`
 - `{slug}_博客提炼.pdf`
 
-PDF 内容必须与 Markdown 核心内容一致，尤其不能漏掉 `思维导图` 和 `专业名词解释`。
-
-结构固定为：
+The PDF must contain the core Markdown content, especially the `思维导图` and `专业名词解释` sections. Use this structure:
 
 ```markdown
 # {标题}｜博客提炼
@@ -65,154 +57,100 @@ PDF 内容必须与 Markdown 核心内容一致，尤其不能漏掉 `思维导�
 - **术语**：先用一句人话解释，再补必要背景。
 ```
 
-`专业名词解释` 必须是全文最后一个一级小节。不要在后面再加总结、免责声明或尾巴。
+`专业名词解释` must be the final top-level section. Do not append a conclusion, disclaimer, or trailing note.
 
----
+## Information-Bullet Standard
 
-## 子弹标准
+- **Self-contained:** Each bullet is a complete unit of thought that makes sense without surrounding context. It normally includes a claim, supporting fact or reasoning, and a closing thought.
+- **Length:** Write a substantial paragraph of roughly five to eight sentences, not a one-line fragment or a list of labels.
+- **Rhythm:** Use Chinese full stops (`。`) as the main internal separator. Commas create short pauses; semicolons are occasional. Vary sentence lengths instead of stretching one sentence indefinitely.
+- **Ending:** Many bullets should close with a crisp judgment, reversal, or concrete image. Do not force this in every bullet.
+- **Count:** Let the source's information density determine the number of bullets. Merge repetitions rather than padding.
+- **Order:** Follow the source's narrative roughly, but prioritize logical flow. Combine related points scattered across the source.
 
-### 自洽
-每颗子弹是一个完整的思想单元。读者不需要看上下文就能理解。通常包含：论点、支撑事实或逻辑、一个收尾。
+## Voice: Cool Essay
 
-### 长度
-一颗子弹是一段"一口气的长呼吸"，多个句子组成，通常 5-8 句。不写一句话碎片，不写短促罗列。视觉上是一个密实段落，不是一行标签。
+- **Literary, not academic:** Use complete sentences and some complex syntax without sounding stiff. An occasional conversational ending, question, or dark joke is acceptable.
+- **Observant, with a perspective:** Use frameworks, analogies, and data to locate a point of view without explicit value judgments.
+- **Third-person observer:** Reorganize the material for readers rather than retelling who said each line.
 
-### 节奏：句号收尾
-子弹内部基本连接符是**句号（。）**。每个句子说完一层意思就落句号。逗号负责句内短停顿，分号偶尔用于并列递进。节奏靠句子长短交替控制，不靠长句不断线。
+## Subject Rule
 
-### 收尾有锤
-很多子弹最后一句应当是**点睛式收束**——精炼判断、反转、画面感定论。不是每颗都必须有，但好的子弹往往收在一锤子上。
+**Omit the grammatical subject by default and state the point directly.**
 
-### 数量
-由原素材信息密度决定。能蒸馏出几颗就写几颗，不凑数、不注水。翻来覆去说同一件事的，只写一颗。
+- Begin many paragraphs with the idea itself.
+- Name a person only when the fact depends on that person's identity or action, or when preserving a direct quotation.
+- Rarely use `我`, even if the user participated in the podcast.
+- Do not guess when the speaker is unclear; state the idea instead.
+- Avoid generic attribution such as `嘉宾认为`, `主播提到`, `有人指出`, `文章指出`, or `据报道`.
 
-### 顺序
-大致跟随原文叙事线，但以逻辑连贯为优先。分散在多处但属同一论点的，合并成一颗。
+## Data Anchors and Explanatory Links
 
----
+Preserve concrete numbers, names, companies, and dates. Distillation removes filler, not evidence. You may add a very thin explanatory link to make an existing causal relationship clear, but do not turn that link into a new fact or let it dominate the source.
 
-## 语气：冷随笔
+## Added Material and Quotations
 
-- **书面但不学术**：句子完整，有从句嵌套，像写分析文章。但不端着，允许偶尔口语感收尾、反问、黑色幽默。
-- **客观但有视角**：不做显式价值判断，但用框架定位、用类比解释、用数据校准。冷静但不中立。
-- **第三者视角**：旁观者姿态，把对话/文章里的信息重新组织给读者看。
+- You may restate with metaphor or analogy if meaning stays the same.
+- Add external facts, data, or examples only when reliable and genuinely useful; identify their source naturally.
+- Never invent details, data, or cases from memory.
+- Preserve at most three to five especially effective original lines as marked quotations. Exclude catchphrases and transitions.
 
----
+## Transcript Handling
 
-## 主语规则（最重要之一）
+- Remove spoken ads, show promotion, opening pleasantries, and empty mutual praise.
+- Remove filler words, repetitions, unfinished sentences, and back-channel agreement such as `对对对`.
+- When several speakers repeat a point, keep its clearest or strongest version.
+- Skip digressions unless they contain a valuable idea.
 
-**默认不用主语。直接陈述观点。**
+## Section Standards
 
-- 大量段落无主语，直接以观点本身起笔
-- 人名只在**必须绑定特定的人才能成立**时出现（如：某人做了某事、某人身份本身是论据、保留某人引语）
-- 「我」几乎不出现——即使用户本人是播客参与者，也倾向写成无主语陈述
-- 发言人模糊处不猜，直接写观点本身
-- **禁止**：「嘉宾认为」「主播提到」「有人指出」「文章指出」「据报道」等泛化归因
+### Main Content
 
----
+Report the actual topics, facts, questions, and conclusions discussed. Each entry needs information; avoid empty framing such as `本期围绕某某展开讨论`.
 
-## 数据锚点
+### New and Important Ideas
 
-原文中的具体数字、人名、公司名、时间点是信息密度骨架，应当保留。蒸馏是去掉水分，不是去掉矿物质。
+“New” means an addition to common knowledge or a clearer frame for a familiar issue. “Important” means it may change a judgment, choice, or action. Explain why each point matters.
 
-## 分析性连接
+### Mind Map
 
-允许加一层**极薄的解释胶水**，把因果关系点明。如："这是抢人大战的关键驱动力"。不是添加新事实，而是替读者把散落的因果线拧成一句。胶水要薄，不能喧宾夺主。
+Use a Markdown hierarchy with one central topic and as many branches as the material warrants. Do not force symmetry. The PDF must preserve this map, either as a hierarchy or a clear tree.
 
----
+### Transferable Knowledge
 
-## 加料规则
+Derive reusable principles, methods, checklists, or decision frameworks. Explain what each is and how to use it. When it cannot become a direct action, give a decision criterion.
 
-**克制。**
-- **允许**：比喻、类比、换种方式重新表述——语言层面加工，不改变信息本身
-- **谨慎**：添加原文中没有的事实/数据/案例——必须确凿无误且对理解有实质帮助，加完自然标明信源
-- **禁止**：凭印象编造细节、杜撰数据、虚构案例
+### Information Bullets
 
-## 原文金句
+Keep the bullets inside the single digest file. Each remains a self-contained paragraph in the cool-essay voice, with sentence-level rhythm and a strong ending where appropriate.
 
-原文中极具传播力的句子（节奏好、画面强、一针见血），可保留原话用引号标注。每篇不超过 3-5 处。不保留口头禅和过渡语。
+### Related Knowledge
 
----
+Check for meaningful connections to earlier processed podcasts, blogs, industry concepts, methods, or investment frameworks. Explain what is shared, what the new material adds or corrects, what should be read together, and where the idea transfers. Do not force a connection without a common mechanism or variable.
 
-## 处理逐字稿特殊注意
+### Glossary
 
-- **去掉**：口播广告、节目宣传、开场寒暄、无信息量互相捧场
-- **去掉**：语气词、重复、未完成句子、"对对对"式附和
-- **合并**：同一观点被不同人反复确认的，只保留最完整或最有力的表述
-- **跳过**：跑题闲聊，除非跑题本身产生了有价值观点
+Place `专业名词解释` at the very end. Explain each term briefly for a non-specialist: first in plain language, then its role in this piece. Do not define jargon with jargon or pile up English abbreviations; when one is needed, give its Chinese meaning.
 
----
+### Boundary
 
-## 播客内容报告标准
+Do not present information absent from the source as fact. Light abstraction is acceptable only when it remains traceable to the transcript or article.
 
-### 主要内容
-只写本期真正讨论的主题、事实、问题和结论。每条应有信息量，不写“本期围绕某某展开讨论”这类空句。
+## Workflow
 
-### 新的和重要的观点
-“新”指相对常识有增量，或把熟悉问题换了一个更清楚的解释框架。“重要”指会影响判断、选择或行动。每条必须说明为什么重要，避免只摘一句漂亮话。
+1. Read the whole source before writing; identify the topic, central claims, and their relationships.
+2. Mark material for each required section, including terms that need explanation.
+3. Write one digest in one Markdown file.
+4. Review every bullet for independence, information density, minimal subject use, preserved data anchors, no unverified additions, and narrative flow. Check that the glossary is last and the PDF includes the mind map.
+5. Apply `humanizer-zh` in mode A at medium intensity, then recheck this skill's subject rule, full-stop rhythm, endings, and clear glossary.
+6. After validating the Markdown and PDF, remove unnecessary intermediate audio, temporary HTML, screenshot caches, raw JSON, and superseded split drafts created during this task.
 
-### 思维导图
-用 Markdown 层级列表表达。中心主题只保留一个，分支数量由内容决定。不要为了好看强行做对称结构。
-导出 PDF 时，思维导图必须保留在 PDF 中。可以继续用层级列表，也可以排成树状结构；判断标准是清晰易读，不是视觉复杂。
+## Do Not
 
-### 可执行可迁移的知识和智慧
-把播客内容抽象成能复用的原则、方法、清单或决策框架。每条至少包含“是什么”和“怎么用”。能落到行动，就写行动；不能直接行动，就写判断标准。
-
-### 信息子弹
-信息子弹放在同一篇博客提炼稿内部，不单独另存一个文件。每颗子弹仍然是一段自洽的观点，用冷随笔语气写，句号收尾，收尾有锤。
-
-### 相关知识串联
-处理新内容时，主动检查它是否与此前处理过的播客、博客、行业概念、方法论或投资框架有关。如果有关，写清楚：
-- 它和旧知识的相同点
-- 它补充或修正了什么
-- 它适合和哪些旧概念一起理解
-- 它能迁移到哪些新场景
-
-不要为了显得博学硬串联。只有确实有共同机制、共同变量或可互相解释时才写。
-
-### 专业名词解释
-专业名词解释必须放在全文最下面。解释要清楚、短、能让非专业读者看懂：
-- 先用一句人话解释
-- 再补一句它在本篇里的作用
-- 不用术语解释术语
-- 不写教科书式长定义
-- 不堆英文缩写；必须出现英文缩写时，给出中文含义
-
-### 边界
-不要把原文没有的信息写成事实。可以做轻度抽象，但要能追溯到逐字稿里的内容。
-
----
-
-## 工作流
-
-1. **通读全文**，不急于动笔。先建立信息骨架——讨论什么、核心论点、论点间关系。
-2. **识别结构**。标记主要内容、新的重要观点、可迁移知识、信息子弹、可串联的旧知识、必须解释的专业名词。
-3. **写成单篇博客提炼稿**。同一期内容只输出一个 Markdown 文件，不拆成多个提炼文件。
-4. **通读检查**：
-   - 每颗子弹独立可读
-   - 没有为写而写的水弹
-   - 主语出现频率足够低
-   - 数据锚点没丢
-   - 没有添加无法确认的事实
-   - 整组子弹有叙事流动感，不是杂乱堆砌
-   - 专业名词解释在全文最下面
-   - 术语解释清晰易懂，不用术语套术语
-   - 相关知识串联是真关联，不硬凑
-   - PDF 中包含思维导图
-5. **去 AI 味**。调用 `humanizer-zh` 技能（模式A，中度改写），对全文进行通用 AI 腔扫描与修正。注意：humanizer-zh 处理后须复核，确保主语规则、句号收尾节奏、收尾有锤、术语解释清楚等本技能独有规则未被破坏。
-6. **清理中间文件**。Markdown 和 PDF 检查完成后，及时删除多余、不必要的中间文件，尤其是音频、临时 HTML、截图缓存、原始 JSON、旧版拆分 Markdown。
-
----
-
-## 不要做的事
-
-- 不把同一期内容拆成两个或多个提炼 MD 文件
-- 不把专业名词解释放在正文中间；统一放到全文最下面
-- 不交付缺少思维导图的 PDF
-- 不保留已经不需要的音频、临时 HTML、原始 JSON、旧版拆分 Markdown
-- 不写空泛导语（"本期播客讨论了..."）
-- 不写空泛总结（"综上所述..."）
-- 不在子弹末尾加评论（"这一点值得深思"）
-- 不把每个发言人话平均分配——信息密度决定篇幅
-- 不照搬原文句子结构，要重新组织语言
-- 不在一个句子内部塞太多层意思——该落句号就落句号
+- Split one source into multiple digest Markdown files.
+- Move the glossary into the body or deliver a PDF without the mind map.
+- Keep intermediate files that are no longer needed.
+- Add empty introductions or conclusions such as `本期播客讨论了...` or `综上所述...`.
+- Append generic commentary such as `这一点值得深思` to a bullet.
+- Give every speaker equal space regardless of information density.
+- Copy the source's sentence structure or overload a sentence that should end with a full stop.
